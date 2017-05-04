@@ -3,6 +3,9 @@
 
 # ___
 # This script is to setup the submission file for the high_throughput calculations.
+# The first part is related to the submission file. It depends on the set-up of your own computers.
+# Here the example is given using the Stampede supercomputer. The system is slurm.
+# folder_dir: this is the folder to run your calculations.
 # ___
 
 # In[1]:
