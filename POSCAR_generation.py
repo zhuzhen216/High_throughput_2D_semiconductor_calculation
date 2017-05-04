@@ -137,8 +137,8 @@ def write_POSCAR_group(group):
 # In[214]:
 
 write_POSCAR_group(elem_V)
-write_POSCAR_troup(compound_III_VII)
-write_POSCAR_troup(compound_IV_VI)
+write_POSCAR_group(compound_III_VII)
+write_POSCAR_group(compound_IV_VI)
 #compound_III_VII
 
 
