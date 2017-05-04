@@ -7,7 +7,7 @@ import os
 import shutil
 import numpy
 import matplotlib.pyplot as plt
-get_ipython().magic('matplotlib inline')
+#get_ipython().magic('matplotlib inline')
 
 
 # In[206]:
@@ -67,10 +67,10 @@ def count_elem(compound):
     i = 1
     while not compound[i].isupper():
         i = i + 1
-    if (compound[0:i] in GroupIII and compound[i:] not in GroupVII) or (compound[0:i] in GroupVII and compound[i:] not in GroupIII):
+    if (compound[0:i] in element.GroupIII and compound[i:] not in element.GroupVII) or (compound[0:i] in element.GroupVII and compound[i:] not in element.GroupIII):
         print('The compound is not correct! Please input V, IV-VI, or III-VII only!')
         return None
-    elif (compound[0:i] in GroupIV and compound[i:] not in GroupVI) or (compound[0:i] in GroupVI and compound[i:] not in GroupIV):
+    elif (compound[0:i] in element.GroupIV and compound[i:] not in element.GroupVI) or (compound[0:i] in element.GroupVI and compound[i:] not in element.GroupIV):
         print('The compound is not correct! Please input V, IV-VI, or III-VII only!')
         return None
     return [compound[0:i], compound[i:]]
