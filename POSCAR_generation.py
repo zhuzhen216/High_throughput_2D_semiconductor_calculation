@@ -163,11 +163,11 @@ def create_folder(folder_path,folder_name):
 # In[217]:
 
 # create a lot of folders:
-folder_path = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
+folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
 for folder_name in compound_all:
     for phase_name in compound_phase[folder_name]:
         combined_name = os.path.join(folder_name,phase_name)
-        create_folder(folder_path,combined_name)   
+        create_folder(folder_dir,combined_name)   
 
 
 # In[218]:
@@ -177,7 +177,7 @@ for folder_name in compound_all:
 # and store the name in a returned list
 #
 file_dir = os.getcwd()
-folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
+#folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
 files=os.listdir(file_dir)
 for file_name in files:
     if file_name[0]=='.' or file_name[-1]=='b':
