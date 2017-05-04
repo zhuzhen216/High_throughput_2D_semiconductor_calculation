@@ -217,7 +217,7 @@ def combine_file(filenames,outfile_path):
 # POTCAR_dir: the folder you store all the POTCAR files
 # folder_dir: the folder you will do calculations in the future
 POTCAR_dir = '/Users/zhenzhu/Project/POTCAR'
-folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
+#folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
 for compound in compound_all:
     elem_in_comp=count_elem(compound)
     if elem_in_comp[0]=='Bis':
