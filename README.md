@@ -1,5 +1,5 @@
 # POSCAR_generation
-I use this script to generate isoelectronic group V, IV-VI, and III-VII compounds. The realized feature are:
+The script can convieniently generate structures of isoelectronic group V, IV-VI, and III-VII compounds. The realized features are:
 
 Three most stable phases of 2D P (black, blue P, and also monolayer cubic phase) are selected as the basis. On top of these three phases, the code can generate structures of other isoelectronic systems: (a) keep the fractional coordinates; (b) scale
 the lattice parameter based on atomic radius.
