@@ -53,6 +53,6 @@ for lev_one_name in folder_lev_one:
             print('submit.sh does not exist for %s'.format(lev_two_name))
             break
         if 'CONTCAR' in os.listdir(submit_folder):
-            if compare_file_len('CONTCAR','POSCAR'):
+            if compare_file_len(os.path.join(submit_folder,'CONTCAR'),os.path.join(submit_folder,'POSCAR')):
                 shutil.copy2(os.path.join(submit_folder,'CONTCAR'),os.path.join(submit_folder,'POSCAR'))
         os.system('sbatch '+os.path.join(submit_folder,'submit.sh'))
