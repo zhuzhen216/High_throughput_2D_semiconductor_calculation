@@ -10,9 +10,21 @@ ___
 ### Detailed information about each scripts
 ___
 
-#### For "POSCAR_generation.py":
+#### POSCAR_generation.py:
 
 Three most stable phases of 2D P (black, blue P, and also monolayer cubic phase) are selected as the basis. On top of these three phases, the code can generate structures of other isoelectronic systems: (a) keep the fractional coordinates; (b) scale
 the lattice parameter based on atomic radius. Output POSCAR files and they are stored in different folders. You need to initialize the folder path "folder_dir = your path" 
 
 POTCAR files are also set up automaticly by the code, saved in the same folder as the structures. You need to give the path that store your POTCAR files "POTCAR_dir = your path".
+
+#### INCAR_set_up.py and KPOINTS_set_up.py
+
+These two scripts are used to set up standard DFT calculations: structure optimization. You need also change the folder path to your own. The path is the folder that contain all your created structures in the previous step.
+
+#### submission_set_up.py
+
+This script creates "submit.sh" file and copy it to each working folder. Later, this file is used to start the calculation.
+
+#### high_throughput_submission.py
+
+This script can submit all the calculations at one time.
