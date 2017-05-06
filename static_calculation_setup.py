@@ -1,13 +1,13 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 import os
 import shutil
 
 
-# In[2]:
+# In[4]:
 
 # This script can manage the submission of static calculations:
 # there are two things to modify:
@@ -21,7 +21,7 @@ import shutil
 folder_dir = '/Users/zhenzhu/Project/calculcation/IV-VI/lots_of_struc'
 
 
-# In[13]:
+# In[6]:
 
 folder_lev_one = os.listdir(folder_dir)
 k_grid = '12 12 1'
@@ -41,24 +41,10 @@ for lev_one_name in folder_lev_one:
             shutil.copy2(os.path.join(lev_three_path,'CONTCAR'),POSCAR_path)
         else:
             shutil.copy2(os.path.join(lev_three_path,'POSCAR'),POSCAR_path)
+        ##
+        # copy POTCAR file to the folder
+        ##
         shutil.copy2(os.path.join(lev_three_path,'POTCAR'),os.path.join(lev_three_path,'static/POTCAR'))
-        ##
-        # below, the code will copy the submit.sh file from original folder to the static folder
-        # the line containing the submission path in the file is modified.
-        # careful, for stampede and guild, it is different
-        ##
-        submit_path = os.path.join(lev_three_path,'static/submit.sh')
-        shutil.copy2(os.path.join(lev_three_path,'submit.sh'),submit_path)
-        f_submit = open(submit_path,'r+')
-        sub_cont = f_submit.readlines()
-        # for guild:
-        sub_cont[7]='cd '+lev_three_path+'/static'+'\n'
-        # for stampede:
-        #sub_cont[-2]='cd '+lev_three_path+'/static'+'\n'
-        f_submit.seek(0)
-        f_submit.truncate()
-        f_submit.write(''.join(sub_cont))
-        f_submit.close()
         ##
         # copy KPOINTS to the new folder; increase the k-grid sampling to 12 x 12 x 1
         ##
@@ -87,6 +73,30 @@ for lev_one_name in folder_lev_one:
         f_incar.truncate()
         f_incar.write(''.join(incar_cont))
         f_incar.close()
+        ##
+        # copy submit file to the folder static and modify it.
+        ##
+        ##
+        # below, the code will copy the submit.sh file from original folder to the static folder
+        # the line containing the submission path in the file is modified.
+        # careful, for stampede and guild, it is different
+        ##
+        submit_path = os.path.join(lev_three_path,'static/submit.sh')
+        shutil.copy2(os.path.join(lev_three_path,'submit.sh'),submit_path)
+        f_submit = open(submit_path,'r+')
+        sub_cont = f_submit.readlines()
+        # for guild:
+        sub_cont[7]='cd '+lev_three_path+'/static'+'\n'
+        # for stampede:
+        #sub_cont[-2]='cd '+lev_three_path+'/static'+'\n'
+        f_submit.seek(0)
+        f_submit.truncate()
+        f_submit.write(''.join(sub_cont))
+        f_submit.close()
+        ##
+        # set up submission
+        ##
+        os.system('qsub '+submit_path)
 
 
 # In[ ]:
