@@ -12,6 +12,7 @@ class element:
     atomic_mass={'B':10.811,'Al':26.5815,'Ga':69.723,'In':114.818,'C':12.0107,'Si':28.0855,'Ge':72.61,'Sn':118.710,'Pb':207.2,'N':14.0067,'P':30.9738,'As':74.9216,'Sb':121.76,'Bis':208.58,'O':15.9994,'S':32.066,'Se':78.96,'Te':127.60,'F':18.9984,'Cl':35.4527,'Br':79.504,'I':126.90447}
     atomic_radius = {'B':87.,'Al':118.,'Ga':138.,'In':156.,'C':67.,'Si':111.,'Ge':125.,'Sn':145.,'Pb':154.,'N':56.,'P':98.,'As':114.,'Sb':133.,'Bis':143.,'O':48.,'S':88.,'Se':103.,'Te':123.,'F':42.,'Cl':79.,'Br':94.,'I':115.}
     atomic_elec_neg = {'B':2.,'Al':1.5,'Ga':1.6,'In':1.7,'C':2.5,'Si':1.8,'Ge':1.8,'Sn':1.8,'Pb':1.9,'N':3.0,'P':2.1,'As':2.0,'Sb':1.9,'Bis':1.9,'O':3.5,'S':2.5,'Se':2.4,'Te':2.1,'F':4.0,'Cl':3.0,'Br':2.8,'I':2.5}
+    atomic_number = {'B':5,'Al':13,'Ga':31,'In':49,'C':6,'Si':14,'Ge':32,'Sn':50,'Pb':82,'N':7,'P':15,'As':33,'Sb':51,'Bis':83,'O':8,'S':16,'Se':34,'Te':52,'F':9,'Cl':17,'Br':35,'I':53}
 
 
 # In[207]:
@@ -51,7 +52,7 @@ for compound in compound_all:
 def count_elem(compound):
     num_upper = sum(1 for char in compound if char.isupper())
     if num_upper == 1:
-        if compound in element.GroupV:
+        if compound in element.GroupV or compound=='Bi':
             return [compound]
         else:
             print('The compound is not correct! Please input V, IV-VI, or III-VII only!')
