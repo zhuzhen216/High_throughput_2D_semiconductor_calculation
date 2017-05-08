@@ -50,13 +50,13 @@ for lev_one_name in folder_lev_one:
         # create input "compound.info" for locpot_vasp2abinit_z
         compound_info_open = open(lev_three_path+'/compound.info','w')
         for elem_name in elem_in_compound:
-            compound_info_open.writelines(str(atomic_info.element.atomic_number[elem_name])+'/n')
+            compound_info_open.writelines(str(atomic_info.element.atomic_number[elem_name])+'\n')
         compound_info_open.writelines(str(1))
         compound_info_open.close()
         # create submit file for "vasp2abi"
         vasp2abi_sub_open = open(lev_three_path+'/vasp2abi_sub.sh','w')
-        vasp2abi_sub_open.writelines('#!/bin/bash/n')
-        vasp2abi_sub_open.writelines('cd '+lev_three_path+'/n')
+        vasp2abi_sub_open.writelines('#!/bin/bash\n')
+        vasp2abi_sub_open.writelines('cd '+lev_three_path+'\n')
         vasp2abi_sub_open.writelines(vasp2abi_path)
         vasp2abi_sub_open.close()
         os.system('qsub '+lev_three_path+'/vasp2abi_sub.sh')
