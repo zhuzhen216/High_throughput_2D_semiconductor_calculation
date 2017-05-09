@@ -2,6 +2,9 @@
 # coding: utf-8
 
 # In[2]:
+import math
+import os
+import shutil
 
 class element:
     GroupIII = ['B','Al','Ga','In']
@@ -98,23 +101,38 @@ def create_lattice(compound,phase):
 # In[212]:
 
 # write the generated structure to a poscar file for VASP
-def write_POSCAR(compound,phase):
-    filename = 'POSCAR'+'_'+compound+'_'+str(phase)
+# write the generated structure to a poscar file for VASP
+def write_POSCAR(compound,phase,show_screen=False,folder_path=os.curdir):
     seperate = count_elem(compound)
     num_seperate = [structure_and_lattice.lattice_sites[phase]//len(seperate) for i in range(len(seperate))]
-    file_w = open(filename, 'w')
-    file_w.writelines(filename+'\n')
-    file_w.writelines(str(1.0)+'\n')
-    file_w.writelines(' '.join(str(j) for j in i) + '\n' for i in create_lattice(compound,phase))
-    #file_w.writelines('\n')
-    file_w.writelines(' '.join(seperate[i] for i in range(len(seperate))))
-    file_w.writelines('\n')
-    file_w.writelines(' '.join(str(num_seperate[i]) for i in range(len(seperate))))
-    file_w.writelines('\n')
-    file_w.writelines('Direct')
-    file_w.writelines(('\n'+' '.join(str(j) for j in i)) for i in structure_and_lattice.frac[phase])
-    file_w.close()
-#write_POSCAR('GeS',0)
+    compound_phase = compound+'_'+str(phase)
+    filename = os.path.join(folder_path,'POSCAR'+'_'+compound_phase)
+    if show_screen == True:
+        print(compound_phase+'\n')
+        print(str(1.0)+'\n')
+        for i in create_lattice(compound,phase):
+            print(' '.join(str(j) for j in list(i)))
+            print('\n')
+        print(' '.join(seperate[i] for i in range(len(seperate))))
+        print('\n')
+        print(' '.join(str(num_seperate[i]) for i in range(len(seperate))))
+        print('\n')
+        print('Direct')
+        for i in structure_and_lattice.frac[phase]:
+            print('\n'+' '.join(str(j) for j in i))
+    else:    
+        file_w = open(filename, 'w')
+        file_w.writelines(compound_phase+'\n')
+        file_w.writelines(str(1.0)+'\n')
+        file_w.writelines(' '.join(str(j) for j in i) + '\n' for i in create_lattice(compound,phase))
+        #file_w.writelines('\n')
+        file_w.writelines(' '.join(seperate[i] for i in range(len(seperate))))
+        file_w.writelines('\n')
+        file_w.writelines(' '.join(str(num_seperate[i]) for i in range(len(seperate))))
+        file_w.writelines('\n')
+        file_w.writelines('Direct')
+        file_w.writelines(('\n'+' '.join(str(j) for j in i)) for i in structure_and_lattice.frac[phase])
+        file_w.close()
 
 
 # In[213]:

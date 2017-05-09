@@ -96,6 +96,8 @@ def read_dos(doscar,fermi_level):
             else:
                 if len(conti_zero)>=2 and conti_zero[0]<=fermi_level and conti_zero[-1]>fermi_level:
                     gap_value = (conti_zero[-1]-conti_zero[0])/len(conti_zero)*(len(conti_zero)+1)
+                    VBM = conti_zero[0]-(conti_zero[-1]-conti_zero[0])/len(conti_zero)
+                    CBM = conti_zero[-1]+(conti_zero[-1]-conti_zero[0])/len(conti_zero)
                     #print(conti_zero)
                     break
                 #elif conti_zero[0]>fermi_level:
@@ -103,7 +105,7 @@ def read_dos(doscar,fermi_level):
                 else:
                     conti_zero=[]
     doscar_out.close()
-    return gap_value   
+    return [gap_value,VBM,CBM]   
 #print(read_vasprun('vasprun.xml'))
 #read_dos('DOSCAR',read_vasprun('vasprun.xml'))
 
