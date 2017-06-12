@@ -13,6 +13,8 @@ Then, you will see the structures in your folder.
 
 Updates (2017-06-11): "INCAR_set_up.py" and "KPOINTS_set_up.py" are now part of "vasp_manager.py", which contains frequently used functions related to VASP calculations.
 
+Basicly, structure generation now can be achieved by calling "atomic_info.py"; then with "vasp_manager.py", computation folders are prepared with required VASP input files; "hight_throughput_submission.py" interfaces with the supercomputer to initialize the calculations. 
+
 ___
 ### Detailed information about each scripts
 ___
