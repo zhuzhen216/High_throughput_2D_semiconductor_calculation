@@ -13,12 +13,13 @@ Then, you will see the structures in your folder.
 
 **Updates** (2017-06-11): "INCAR_set_up.py" and "KPOINTS_set_up.py" are now part of "vasp_manager.py", which contains frequently used functions related to VASP calculations.
 
-Basicly, structure generation now can be achieved by calling "atomic_info.py"; then with "vasp_manager.py", computation folders are prepared with required VASP input files; "hight_throughput_submission.py" interfaces with the supercomputer to initialize the calculations. 
+**Basicly, structure generation now can be achieved by calling "atomic_info.py"; then with "vasp_manager.py", computation folders are prepared with required VASP input files; "hight_throughput_submission.py" interfaces with the supercomputer to initialize the calculations.**
 
 ___
 ### Detailed information about each scripts
 ___
 
+### 1. Structure generation and relaxation by DFT
 #### POSCAR_generation.py:
 
 Three most stable phases of 2D P (black, blue P, and also monolayer cubic phase) are selected as the basis. On top of these three phases, the code can generate structures of other isoelectronic systems: (a) keep the fractional coordinates; (b) scale
@@ -37,3 +38,27 @@ This script creates "submit.sh" file and copy it to each working folder. Later, 
 #### high_throughput_submission.py
 
 This script can submit all the calculations at one time.
+
+### 2. Density of states (DOS) calculations
+#### DOS_calc.py
+
+Based on calculated results of static calculations (of previous steps), this script can set up DOS calculations: a new folder is created for each system and required files (INCAR, KPOINTS, POSCAR, POTCAR, CHGCAR) are modified/copied.
+
+### 3. Single-shot HSE calculations
+
+#### HSE_one_shot_submission.py
+You need to claim the path of the working folder 
+
+### 4. Band alignment calculations
+Band alignment is calculated step by step by scripts: "band_align_step1.py", "band_align_step2.py", and "band_align_step3.py".
+
+#### "band_align_step1.py": 
+Transform "LOCPOT" of VASP to abinit format
+
+#### "band_align_step2.py": 
+Set up "macroave" calculations to obtain averaged electrostatic potential in the systems.
+
+#### "band_align_step2.py":
+Obtain the averaged potential difference between the materials and vacuum.
+
+#### tot_energy_and_band_gap.py: 
