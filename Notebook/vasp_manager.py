@@ -1,34 +1,43 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[3]:
 
 import os
 import shutil
 import atomic_info
+import math
+import numpy as np
 
 
 # ___
 # ## Set up VASP inputs:
 # ___
 
-# In[24]:
+# In[1]:
 
 def create_folder(folder_path,folder_name):
     """
     Create a folder to do the calculation
+    folder_path: the path you do calculation
+    folder_name: the folder name you want to create
     """
     new_folder=os.path.join(folder_path,folder_name)
     if not os.path.exists(new_folder):
         os.makedirs(new_folder)
+    return new_folder
 
 
-# In[25]:
+# In[5]:
 
 def set_INCAR(folder_path=os.curdir,ISIF=2,ENCUT=500,ISMEAR=-5):
     """
     set up a INCAR file for PBE calculation
     default: no lattice optimization
+    folder_path: you need to specify the folder path of the calculations
+    ISIF: VASP parameter (ISIF=3 for lattice optimization)
+    ENCUT: VASP parameter
+    ISMEAR: VASP parameter
     """
     filename = folder_path+'/INCAR'
     f_incar = open(filename,'w')
@@ -39,7 +48,7 @@ def set_INCAR(folder_path=os.curdir,ISIF=2,ENCUT=500,ISMEAR=-5):
     f_incar.writelines('IBRION=2; '+ 'ISIF='+str(ISIF)+'; NSW=100\n')
     f_incar.writelines('EDIFF  = 0.1E-05'+'\n')
     f_incar.writelines('EDIFFG = -0.01\n')
-    f_incar.writelines('NEDOS = 3001')
+    f_incar.writelines('NEDOS = 4001')
     f_incar.close()
 #set_INCAR('/Users/zhenzhu/GitHub/POSCAR_generation/test',ISMEAR=-5)
 
@@ -152,10 +161,11 @@ def set_submit_stampede(to_folder=os.getcwd()):
     submit_file.writelines('cd '+to_folder+'\n')
     submit_file.writelines('ibrun $HOME/bin/vasp.541_p3.stampede'+'\n')
     submit_file.close()
+    return to_folder + '/' + 'submit.sh'
 #set_submit_stampede()
 
 
-# In[32]:
+# In[2]:
 
 ## submit to guild
 def set_submit_guild(to_folder=os.getcwd()):
@@ -163,6 +173,7 @@ def set_submit_guild(to_folder=os.getcwd()):
     1. submit to guild 
     2. this will create a submission  file in the folder to do calculations
     3. the submission file is well-prepared. No need to modify it.
+    4. to_folder needs to be specified if current folder is not the 
     """
     submit_file=open(os.path.join(to_folder,'submit.sh'),'w')
     submit_file.writelines('#!/bin/bash'+'\n')
@@ -180,6 +191,7 @@ def set_submit_guild(to_folder=os.getcwd()):
     submit_file.writelines('ulimit -s unlimited'+'\n')
     submit_file.writelines('/usr/local/openmpi-1.6.4/bin/mpirun -np 8 -machinefile $PBS_NODEFILE /home/vandewalle/codes/guild/VASP/vasp.541_p3.guild')
     submit_file.close()
+    return to_folder + '/' + 'submit.sh'
 #set_submit_guild()
 
 
@@ -244,7 +256,7 @@ def obt_TotEnergy(oszicar_file):
     return float(oszicar_cont[-1].split()[4])
 
 
-# In[41]:
+# In[6]:
 
 def obt_NumOfAtoms(poscar_file):
     """
@@ -321,6 +333,53 @@ def obt_bandgap(doscar,fermi_level):
                     conti_zero=[]
     doscar_out.close()
     return [gap_value,VBM,CBM]
+
+
+# In[71]:
+
+def lattice_cons(num_lattice):
+    return math.sqrt(num_lattice[0]**2+num_lattice[1]**2+num_lattice[2]**2)
+def lattice_diff(length1,length2):
+    if abs(abs(length1)-abs(length2))/abs(length1)<0.01:
+        return False
+    else:
+        return True
+def lattice_angle(a,b):
+    return np.arccos(abs(sum([a[i]*b[i] for i in range(3)]))/lattice_cons(a)/lattice_cons(b)) 
+def compare2DLattice(poscar1,poscar2):
+    """
+    compare length of a1 and a2
+    compare angle of a1 and a2
+    """
+    lattice1=[]
+    lattice2=[]
+    if not os.path.exists(poscar1) or not os.path.exists(poscar2):
+        return False
+    poscar1_open = open(poscar1,'r')
+    poscar2_open = open(poscar2,'r')
+    poscar1_cont = poscar1_open.readlines()
+    poscar2_cont = poscar2_open.readlines()
+    for i in [2,3]:
+        lattice1.append([float(poscar1_cont[i].split()[j]) for j in range(3)])
+        lattice2.append([float(poscar2_cont[i].split()[j]) for j in range(3)])
+    print(lattice1,lattice2)
+    for i in [0,1]:
+        if lattice_diff(lattice_cons(lattice1[i]),lattice_cons(lattice2[i])):
+            return False
+    if lattice_diff(lattice_angle(lattice1[0],lattice1[1]),lattice_angle(lattice2[0],lattice2[1])):
+        return False
+    #print(lattice_angle(lattice1[0],lattice1[1]))
+    return True
+
+
+# In[72]:
+
+compare2DLattice('InCl_P0_POSCAR','InCl_P2_POSCAR')
+
+
+# In[ ]:
+
+
 
 
 # ___
