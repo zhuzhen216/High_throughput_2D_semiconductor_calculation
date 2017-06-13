@@ -251,7 +251,7 @@ def obt_NumOfAtoms(poscar_file):
     read how many atoms in each cell
     """
     poscar = open(poscar_file,'r')
-    poscar_cont = oszicar.readlines()
+    poscar_cont = poscar.readlines()
     poscar.close()
     num_of_atom=poscar_cont[6].split()
     if len(num_of_atom)==1:
