@@ -21,7 +21,7 @@ def create_folder(folder_path,folder_name):
     new_folder=os.path.join(folder_path,folder_name)
     if not os.path.exists(new_folder):
         os.makedirs(new_folder)
-    return new_folder
+
 
 # In[25]:
 
@@ -152,7 +152,6 @@ def set_submit_stampede(to_folder=os.getcwd()):
     submit_file.writelines('cd '+to_folder+'\n')
     submit_file.writelines('ibrun $HOME/bin/vasp.541_p3.stampede'+'\n')
     submit_file.close()
-    return to_folder + '/' + 'submit.sh'
 #set_submit_stampede()
 
 
@@ -181,7 +180,6 @@ def set_submit_guild(to_folder=os.getcwd()):
     submit_file.writelines('ulimit -s unlimited'+'\n')
     submit_file.writelines('/usr/local/openmpi-1.6.4/bin/mpirun -np 8 -machinefile $PBS_NODEFILE /home/vandewalle/codes/guild/VASP/vasp.541_p3.guild')
     submit_file.close()
-    return to_folder + '/' + 'submit.sh'
 #set_submit_guild()
 
 
